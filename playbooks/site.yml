@@ -58,7 +58,7 @@
 
 - name: dnsmasq
   hosts: all
-  gather_facts: no
+  gather_facts: yes
   any_errors_fatal: true
   pre_tasks:
     - setup:
