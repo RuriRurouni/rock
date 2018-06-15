@@ -16,12 +16,12 @@
 - name: Create array with correct disk name
   set_fact:
     data_disks: "{{ disk_names.results | map(attribute='stdout') | list }}"
-  when: hostvars[inventory_hostname].ceph_disks is defined
+  when: disk_names is defined
 
 - name: Create an empty list for devices which don't have any drives
   set_fact:
     data_disks: "{{ '' | list }}"
-  when: disk_names.results[0].stdout is not defined
+  when: disk_names is not defined and disk_names.results[0].stdout is not defined
 
 # This will throw an error if the disk name provided isn't in the list of
 # available ansible devices
