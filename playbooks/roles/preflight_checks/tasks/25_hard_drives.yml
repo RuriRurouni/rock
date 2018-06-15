@@ -16,7 +16,7 @@
 - name: Create array with correct disk name
   set_fact:
     data_disks: "{{ disk_names.results | map(attribute='stdout') | list }}"
-  when: disk_names is defined
+  when: hostvars[inventory_hostname].ceph_disks is defined
 
 - name: Create an empty list for devices which don't have any drives
   set_fact:
@@ -30,7 +30,7 @@
     msg: "{{ item }} is not a drive. Make sure that you provided the name of a full drive and not a partition."
     that: item in ansible_devices
   loop: "{{ data_disks }}"
-  when: ( data_disks | length ) > 0
+  when: hostvars[inventory_hostname].ceph_disks is defined and ( data_disks | length ) > 0
 
 # The below code will verify, per host, that every drive listed in
 #the inventory file for that host does not contain the root directory / the OS
